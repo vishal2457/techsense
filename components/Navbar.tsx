@@ -79,7 +79,7 @@ export function HeaderSimple() {
           {items}
         </Group> */}
 
-        <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+        {/* <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" /> */}
       </Container>
     </Header>
   );

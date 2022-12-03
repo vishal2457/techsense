@@ -1,6 +1,7 @@
 import { createStyles, Container, Text, Button, Group, SimpleGrid } from '@mantine/core';
 import { IconScale, IconLifebuoy, IconRocket } from '@tabler/icons';
-import { GetInTouch } from '../components/Contact';
+import { useRef, useState } from 'react';
+import  GetInTouch  from '../components/Contact';
 import { FeaturesCards } from '../components/Features';
 import { HeaderSimple } from '../components/Navbar';
 import ProgramOutline from '../components/ProgramOutline';
@@ -146,6 +147,52 @@ const useStyles = createStyles((theme) => ({
 
 const HeroTitle = () => {
   const { classes } = useStyles();
+  const [form, setForm] = useState({
+    email: '',
+    name: ''
+  });
+  const [msg, setmsg] = useState('')
+
+  const handleChange = (e:any) => {
+    setForm({...form, [e.target.name]: e.target.value});
+  }
+
+  const registerBlock = useRef<any>(null);
+
+  
+  const handleSubmit = (e:any) => { 
+    e.preventDefault()
+    console.log('Sending')
+  fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form)
+    }).then((res) => {
+      console.log('Response received')
+      if (res.status === 200) {
+        console.log('Response succeeded!')
+        let obj = {email: '', name: ''};
+        setForm({...obj});
+        setmsg('Thank you for registration. We will contact you soon.');
+        setTimeout(() => {
+            setmsg('')
+        }, 3000);
+
+
+
+      }
+    })
+  }
+  
+
+
+  const scrollToContact = () => {
+    if(!registerBlock.current) return
+    registerBlock.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
 
   const features = FEATURES_DATA.map((feature) => (
@@ -188,6 +235,7 @@ const HeroTitle = () => {
         </SimpleGrid>
         <Group className={classes.controls}>
           <Button
+          onClick={scrollToContact}
             size="xl"
             className={classes.control}
             variant="gradient"
@@ -200,7 +248,12 @@ const HeroTitle = () => {
       </Container>
       <FeaturesCards />
       <ProgramOutline />
-      <GetInTouch />
+      <GetInTouch ref={registerBlock}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      msg={msg}
+      form={form}
+      />
     </div>
   );
 }
