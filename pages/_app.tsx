@@ -1,6 +1,26 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { ColorScheme, ColorSchemeProvider } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { useEffect } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "theme",
+    defaultValue: "dark",
+    getInitialValueInEffect: true,
+  });
+  
+
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  return (
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={() => {}}
+    >
+      <Component {...pageProps} />
+    </ColorSchemeProvider>
+  );
 }
