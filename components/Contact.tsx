@@ -145,7 +145,7 @@ const GetInTouch = React.forwardRef((props: any, ref: any) => {
           <div className={classes.fields}>
             <SimpleGrid cols={1} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
               <TextInput
-              name="name"
+                name="name"
                 label="Your name"
                 onChange={props.handleChange}
                 placeholder="Your name"
@@ -156,16 +156,19 @@ const GetInTouch = React.forwardRef((props: any, ref: any) => {
                 name="email"
                 onChange={props.handleChange}
                 value={props.form.email}
-
                 placeholder="hello@mantine.dev"
                 required
               />
             </SimpleGrid>
-        <Text size={'sm'} color={'teal'}>
-          {props.msg}
-        </Text>
+            <Text size={"sm"} color={"teal"}>
+              {props.msg}
+            </Text>
             <Group position="right" mt="md">
-              <Button type="submit" className={classes.control} onClick={props.handleSubmit}>
+              <Button
+                type="submit"
+                className={classes.control}
+                onClick={props.handleSubmit}
+              >
                 Register
               </Button>
             </Group>
